@@ -1,0 +1,31 @@
+---
+- name: ensure proj dir exists
+  file: path=~/proj state=directory
+
+- name: pull vim config from github
+  git: repo=git@github.com:ilikeorangutans/vimrc.git dest=~/proj/vimrc
+
+- name: link vimrc config
+  file: src=~/proj/vimrc/vimrc dest=~/.vimrc state=link
+
+- include: "{{ansible_system}}.yml"
+
+- name: check for bundle directory
+  stat: path=~/.vim/bundle
+  register: p
+
+- debug: var=p
+
+- name: install vundle plugins
+  shell: vim +PluginInstall +qall
+  when: p.stat.isdir is not defined
+
+- name: update vundle  plugins
+  shell: vim +PluginUpdate +qall
+  when: p.stat.exists is defined and p.stat.isdir
+
+- name: recompile YouCompleteMe
+  shell: ./install.py --clang-completer --gocode-completer chdir=~/.vim/bundle/YouCompleteMe
+
+- name: recompile ctrlp-cmatcher
+  shell: ./install.sh chdir=~/.vim/bundle/ctrlp-cmatcher/
