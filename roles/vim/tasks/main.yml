@@ -8,13 +8,14 @@
 - name: link vimrc config
   file: src=~/proj/vimrc/vimrc dest=~/.vimrc state=link
 
+- name: link gvimrc config
+  file: src=~/proj/vimrc/gvimrc dest=~/.gvimrc state=link
+
 - include: "{{ansible_system}}.yml"
 
 - name: check for bundle directory
   stat: path=~/.vim/bundle
   register: p
-
-- debug: var=p
 
 - name: install vundle plugins
   shell: vim +PluginInstall +qall

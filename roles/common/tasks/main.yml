@@ -18,5 +18,8 @@
   - nmap
   - build-essential
   - curl
+  when: ansible_system == 'Linux'
 
+- name: create proj directory
+  file: path=~/proj state=directory
 
