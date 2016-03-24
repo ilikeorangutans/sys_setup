@@ -8,6 +8,7 @@
   - vim-gtk
   tags:
   - vim
+  - exuberant-ctags
 
 - name: link gvim config
   file: src=~/proj/vimrc/gvimrc dest=~/.gvimrc state=link
