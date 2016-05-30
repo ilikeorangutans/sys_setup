@@ -18,7 +18,32 @@
   - nmap
   - build-essential
   - curl
+  - jq
+  - pstree
+  - fzf
   when: ansible_system == 'Linux'
+
+- name: install basics on MacOS X
+  homebrew: name={{ item }} state=present
+  with_items:
+  - zsh
+  - tree
+  - htop
+  - zip
+  - curl
+  - fzf
+  - macvim
+  - ctags
+  - git
+  - tig
+  - glide
+  - gnupg
+  - jq
+  - openssh
+  - pstree
+  - unrar
+  - p7zip
+  when: ansible_system == 'darwin'
 
 - name: create proj directory
   file: path=~/proj state=directory
