@@ -19,8 +19,7 @@
   - build-essential
   - curl
   - jq
-  - pstree
-  - fzf
+  - psmisc
   when: ansible_system == 'Linux'
 
 - name: install basics on MacOS X

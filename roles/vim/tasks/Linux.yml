@@ -2,13 +2,15 @@
 
 - name: install vim and dependencies
   apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
+  become: yes
   with_items:
   - vim
   - vim-common
   - vim-gtk
+  - exuberant-ctags
+  - cmake
   tags:
   - vim
-  - exuberant-ctags
 
 - name: link gvim config
   file: src=~/proj/vimrc/gvimrc dest=~/.gvimrc state=link
