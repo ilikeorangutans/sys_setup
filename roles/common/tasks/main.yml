@@ -21,6 +21,9 @@
   - jq
   - psmisc
   - silversearcher-ag
+  - pstree
+  - fzf
+  - ripgrep
   when: ansible_system == 'Linux'
 
 - name: install basics on MacOS X
@@ -43,6 +46,7 @@
   - pstree
   - unrar
   - p7zip
+  - ripgrep
   when: ansible_system == 'darwin'
 
 - name: create proj directory
