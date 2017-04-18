@@ -35,8 +35,6 @@
   - zip
   - curl
   - fzf
-  - macvim
-  - ctags
   - git
   - tig
   - glide
@@ -49,6 +47,9 @@
   - ripgrep
   when: ansible_system == 'darwin'
 
-- name: create proj directory
-  file: path=~/proj state=directory
+- name: create src directory
+  file: path=~/src/github.com/ilikeorangutans state=directory
+
+- name: clone/update dotfiles
+  git: repo=git@github.com:ilikeorangutans/dotfiles.git dest=~/src/github.com/ilikeorangutans/dotfiles
 
