@@ -45,6 +45,7 @@
   - unrar
   - p7zip
   - ripgrep
+  - findutils
   when: ansible_system == 'darwin'
 
 - name: create src directory
@@ -52,4 +53,10 @@
 
 - name: clone/update dotfiles
   git: repo=git@github.com:ilikeorangutans/dotfiles.git dest=~/src/github.com/ilikeorangutans/dotfiles
+
+- name: link git config
+  file: src=~/src/github.com/ilikeorangutans/dotfiles/gitconfig dest=~/.gitconfig state=link
+
+- name: link global git ignore
+  file: src=~/src/github.com/ilikeorangutans/dotfiles/gitignore dest=~/.gitignore state=link
 
