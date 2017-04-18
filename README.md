@@ -1,5 +1,7 @@
 # sys_setup
 
+Sets up a workstation with my commonly used tools and configurations. Configurations are sourced from github.com/ilikeorangutans/dotfiles.
+
 ## Getting It
 
 ```
