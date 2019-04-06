@@ -95,3 +95,11 @@
     ssh_key_file: .ssh/id_rsa
     #shell: /bin/zsh
 
+- name: Alacritty config dir
+  file:
+    path: ~/.config/alacritty
+    state: directory
+
+- name: link alacritty config
+  file: src=~/src/github.com/ilikeorangutans/dotfiles/alacritty.conf dest=~/.config/alacritty/alacritty.yml state=link
+
