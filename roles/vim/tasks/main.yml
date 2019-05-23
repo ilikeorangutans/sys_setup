@@ -8,9 +8,23 @@
 - name: link gvim config
   file: src=~/src/github.com/ilikeorangutans/dotfiles/gvimrc dest=~/.gvimrc state=link
 
+- name: ensure .vim and subdirs exist
+  file:
+    path: ~/.vim/{{item}}
+    state: directory
+  with_items:
+    - swap
+    - backup
+
 - name: check for bundle directory
   stat: path=~/.vim/bundle
   register: p
+
+- name: install vundle
+  git:
+    repo: 'https://github.com/VundleVim/Vundle.vim.git'
+    dest: ~/.vim/bundle/Vundle.vim
+  when: p.stat.isdir is not defined
 
 - name: install vundle plugins
   shell: vim +PluginInstall +qall
@@ -24,9 +38,9 @@
   stat: path=~/.vim/bundle/YouCompleteMe
   register: ycm
 
-- name: recompile YouCompleteMe
-  shell: ./install.py --clang-completer --gocode-completer chdir=~/.vim/bundle/YouCompleteMe
-  when: ansible_date_time.epoch|int - ycm.stat.mtime|int > 3600
+  #- name: recompile YouCompleteMe
+  #shell: ./install.py --clang-completer --gocode-completer chdir=~/.vim/bundle/YouCompleteMe
+  #when: ansible_date_time.epoch|int - ycm.stat.mtime|int > 3600
 
 - name: recompile ctrlp-cmatcher
   shell: ./install.sh chdir=~/.vim/bundle/ctrlp-cmatcher/

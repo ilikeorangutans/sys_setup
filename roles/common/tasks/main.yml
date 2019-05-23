@@ -21,9 +21,6 @@
   - jq
   - psmisc
   - silversearcher-ag
-  - pstree
-  - fzf
-  - ripgrep
   when: ansible_system == 'Linux'
 
 - name: install basics on MacOS X
@@ -48,15 +45,53 @@
   - findutils
   when: ansible_system == 'darwin'
 
+- name: create ~/bin
+  file: path=~/bin state=directory
+
+- name: install diff-so-fancy
+  get_url:
+    url: https://raw.githubusercontent.com/so-fancy/diff-so-fancy/master/third_party/build_fatpack/diff-so-fancy
+    dest: ~/bin/diff-so-fancy
+    mode: '0755'
+
+- name: download ripgrep debian package
+  get_url: url="https://github.com/BurntSushi/ripgrep/releases/download/11.0.1/ripgrep_11.0.1_amd64.deb" dest="/tmp/ripgrep_11.0.1_amd64.deb"
+  when: ansible_system == 'Linux'
+
+- name: install ripgrep
+  apt: deb="/tmp/ripgrep_11.0.1_amd64.deb"
+  when: ansible_system == 'Linux'
+
+- name: install fzf source
+  git: repo=https://github.com/junegunn/fzf.git dest=~/.fzf
+
+- name: install fzf
+  shell: ~/.fzf/install --64 --update-rc --completion --key-bindings
+
 - name: create src directory
   file: path=~/src/github.com/ilikeorangutans state=directory
 
 - name: clone/update dotfiles
   git: repo=git@github.com:ilikeorangutans/dotfiles.git dest=~/src/github.com/ilikeorangutans/dotfiles
 
-- name: link git config
-  file: src=~/src/github.com/ilikeorangutans/dotfiles/gitconfig dest=~/.gitconfig state=link
+- name: link configs from dotfiles
+  file:
+    src=~/src/github.com/ilikeorangutans/dotfiles/{{item.src}}
+    dest={{item.dst}}
+    state=link
+  with_items:
+    - { src: 'gitconfig', dst: '~/.gitconfig' }
+    - { src: 'gitignore', dst: '~/.gitignore' }
+    - { src: 'tmux.conf', dst: '~/.tmux.conf' }
+    - { src: 'tmux.darwin', dst: '~/.tmux.darwin' }
+    - { src: 'tmux.linux', dst: '~/.tmux.linux' }
+    - { src: 'vimrc', dst: '~/.vimrc' }
 
-- name: link global git ignore
-  file: src=~/src/github.com/ilikeorangutans/dotfiles/gitignore dest=~/.gitignore state=link
+- name: generate ssh key
+  user:
+    name: jakob
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    #shell: /bin/zsh
 
