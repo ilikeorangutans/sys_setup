@@ -1,7 +1,6 @@
 ---
 
 - name: install vim and dependencies (Mac OS X)
-  homebrew: name={{item}} state=present
-  with_items:
-  - macvim
-  - ctags
+  homebrew:
+    name: ['macvim', 'ctags']
+    state: present
