@@ -13,7 +13,8 @@
   homebrew:
     update_homebrew: yes
     state: present
-    name: ['zsh', 'tree', 'htop', 'zip', 'curl', 'fzf', 'git', 'git-extras', 'tig', 'glide', 'gnupg', 'jq', 'openssh', 'pstree', 'unrar', 'p7zip', 'ripgrep', 'findutils', 'fd', 'tmux', 'reattach-to-user-namespace', 'grep', 'findutils', 'diff-so-fancy', 'dive']
+    name: ['bat', 'zsh', 'tree', 'htop', 'zip', 'curl', 'fzf', 'git', 'git-extras', 'tig', 'glide', 'gnupg', 'jq', 'openssh', 'pstree', 'unrar', 'p7zip', 'ripgrep', 'findutils', 'fd', 'tmux', 'reattach-to-user-namespace', 'grep', 'findutils', 'diff-so-fancy', 'dive']
+    name: ['bat', 'zsh', 'tree', 'htop', 'zip', 'curl', 'fzf', 'git', 'git-extras', 'tig', 'glide', 'gnupg', 'jq', 'openssh', 'pstree', 'unrar', 'p7zip', 'ripgrep', 'findutils', 'fd', 'tmux', 'reattach-to-user-namespace', 'grep', 'findutils', 'diff-so-fancy']
   when: ansible_system == 'Darwin'
 
 - name: create ~/bin
